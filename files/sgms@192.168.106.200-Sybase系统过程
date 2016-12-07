@@ -1,0 +1,227 @@
+sa_describe_shapefile
+sa_get_user_status
+sa_locks
+sa_performance_diagnostics
+sa_report_deadlocks
+sa_text_index_stats
+
+sp_iqcardinality_analysis--分析表中列的基数
+sp_iqcardinality_analysis 'DW_S_APP_INFO', 'sgms_dw'
+
+sp_iqcheckdb 'allocation database'
+
+sp_iqclient_lookup [ 'IPaddress' ], [ Port ], [ UserID ]
+
+--显示有关数据库中的列的信息
+sp_iqcolumn  [ table_name='table_name' ],[ table_owner='tableowner' ],[table_loc='table_loc’] 
+
+--返回有关一个或多个表中列索引的详细信息
+sp_iqcolumnmetadata [ table.name [, owner-name ] ]
+
+---报告负载访问的列的详细使用信息
+sp_iqcolumnuse
+
+/*显示有关连接和版本的信息，包括哪些用户正在使用临时 dbspace、哪些用户正在使
+版本保持活动状态、连接在 SAP Sybase IQ 内部执行哪些操作、连接状态、数据库版
+本状态*/
+sp_iqconnection
+
+--列出使用CREATE TABLE 或 ALTER TABLE 为指定表或列定义的参照完整性约束
+sp_iqconstraint ['table-name', 'column-name', 'table-owner' ]
+
+--按照连接跟踪和显示有关当前执行的语句的信息
+sp_iqcontext
+
+--
+sp_iqshowpsexe
+
+--显示有关当前在服务器上打开的游标的详细信息
+sp_iqcursorinfo [ cursor-name ] [, conn-handle ]
+
+--显示有关系统数据类型和用户定义数据类型的信息
+sp_iqdatatype [ type-name ], [ type-owner ], [ type-type ]
+
+--显示当前数据库的大小
+sp_iqdbsize
+
+--显示在指定表中使用的每个对象和子对象的大小
+sp_iqdbspaceinfo [ dbspace-name ] [ , owner_name ] [ ,object_name ] [ , object-type ]
+
+--列出给定 dbspace 中表类型的对象和子对象（包括列、索引、元数据、主键、唯一约束、外键和分区）
+sp_iqdbspaceobjectinfo
+
+--报告最近一次执行sp_iqcheckdb 的结果
+sp_iqdbstatistics
+
+--估计给定索引总大小所需的 dbspace 的数量和大小
+sp_iqestdbspaces ( db_size_in_bytes, iq_page_size,min_#_of_bytes, max_#_of_bytes )
+
+--显示有关系统事件和用户定义的事件的信息
+sp_iqevent
+
+--显示有关系统对象及数据类型和用户定义的对象及数据类型的信息。
+sp_iqhelp [ obj-name ], [ obj-owner ], [ obj-category ], [ obj-type ]
+obj-type:
+table
+| view
+| procedure
+| event
+| datatype
+
+--显示存储的索引建议消息
+sp_iqindexadvice
+
+
+sp_iqlocks
+--触发行级版本 (RLV) 存储库和 IQ 主存储库的合并  合并类型可以是 BLOCKING | NON-BLOCKING。
+sp_iqmergerlvstore 'merge_type', 'table_name', [ 'table_owner' ]
+
+--返回可读格式的表版本日志的内容
+sp_iqmpxdumptlvlog
+
+--显示协调器节点上当前挂起的连接和事务的相关详细信息
+sp_iqmpxsuspendedconninfo
+
+--返回数据库对象和子对象的分区和 dbspace 分配
+sp_iqobjectinfo
+
+--更改用户口令
+call sp_iqpassword (‘caller_password’, ‘new_password’ [,‘user_name’])
+
+--按表、列、表所有者或为数据库中的所有 SAP Sybase IQ 表显示主键和主键约束的相关信息。
+sp_iqpkeys { [ table-name ], [ column-name ], [ table-owner ] }
+
+--显示与系统过程和用户定义过程有关的信息
+sp_iqprocedure [ proc-name ], [ proc-owner ], [ proc-type ]
+
+--显示与存储过程参数有关的信息，包括结果集变量和 SQLSTATE/SQLCODE 错误值。
+sp_iqprocparm [ proc-name ], [ proc-owner ], [ proc-type ]
+
+--重建列索引
+sp_iqrebuildindex (table_name, index_clause)
+/*
+index_clause – 下列字符串中的一个或多个，以空格分隔：
+column column_name [count]
+index index_name
+*/
+
+--重建 16.0 之前列宽超过 255 个字节的 FP 索引
+sp_iqrebuildindexwide [ table_name ] [, table_owner] [, level]
+
+--重命名用户创建的表、列、索引、约束（唯一、主键、外键和检查）、存储过程和函数
+sp_iqrename object-name, new-name [, object-type ]
+
+--将与指定表关联的标识/自动增量列的种子设置为指定值。
+sp_iq_reset_identity (table_name, table_owner, value)
+/*
+  注释
+标识/自动增量列存储自动生成的编号。生成的值是传入数据的唯一标识符。这些有
+序的值是自动生成的，并且绝不重复使用，即使行已从表中删除也是如此。指定的种
+子值会替换缺省种子值，并且在数据库关闭和出故障时也保持不变。
+*/
+
+--显示在给定日期之后要使数据库达到一致状态所需要的恢复操作。
+sp_iqrestoreaction 'timestamp'
+
+--按表监控 RLV 存储内存使用情况。
+sp_iqrlvmemory ( [table_name [,table_owner ] ])
+
+--报告在 FP 索引级的表的内部行碎片的相关信息
+dbo.sp_iqrowdensity (‘target ‘)
+target:(table table-name | (column column-name (...))
+/*参数
+? table-name – 报告指定表中的所有列。
+? column-name – 报告目标表中的指定列。可指定多个目标列，但每次都必须重复
+使用关键字。
+您必须指定关键字table 和 column。这些关键字不区分大小写。*/
+
+--显示数据库选项设置的相关信息，这些设置控制任务优先级和连接的资源使用情况。
+sp_iqshowpsexe [ connection-id ]
+
+--返回每项可用统计或指定统计的序列号、名称、说明、值和单位指示符
+sp_iqstatistics [ stat_name ]
+--sp_iqstatistics 'CpuTotalTime'
+
+--显示数据库中的表的相关信息
+sp_iqtable ( [ table_name ],[table_owner ],[table_type ] )
+table_type:
+TEMP
+| VIEW
+| ALL
+| any_other_value
+
+--返回指定表的大小
+sp_iqtablesize ( table_owner.table_name )
+
+--显示事务和版本的相关信息
+sp_iqtransaction
+
+--报告负载未引用的 IQ 列
+sp_iqunusedcolumn
+
+--将字符串添加到事务日志中
+sa_audit_string( string )
+
+--将CHAR 字符串拆分为多个术语，并以行返回每个术语及其位置
+sa_char_terms( 'char-string' [, 'text-config-name'[, 'owner' ] ] ] )
+参数
+? char-string – 所分析的 CHAR 字符串。
+? text-config-name – 处理字符串时应用的文本配置对象。缺省值为 'default_char'。
+? owner – 指定的文本配置对象的所有者。缺省值为 DBA。
+
+--允许在检查点操作期间执行 shell 命令
+sa_checkpoint_execute 'shell_commands'
+
+--返回给定表或视图的所有相关视图的列表
+sa_dependent_views([ tbl_name[, owner_name ] ])
+
+--清空数据库服务器高速缓存中的当前数据库的所有页
+sa_flush_cache( )
+
+--报告已经在数据库中执行的过程、函数、事件或触发器中每一行的执行时间信息。
+sa_procedure_profile([ filename[, save_to_file ] ] )
+
+--返回包含指定起始值和结束值之间的行的结果集
+sa_rowgenerator([ rstart[, rend[, rstep ] ] ])
+/*
+参数
+? rstart – 使用此可选的 INTEGER 参数指定起始值。缺省值是 0。
+? rend – 使用此可选的 INTEGER 参数指定大于或等于rstart 的结束值。缺省值是100。
+? rstep – 使用此可选的 INTEGER 参数指定序列值的增量。缺省值是 1。
+查询的 FROM 子句中，以生成一个数字序
+可以为类似如下的任务使用
+sa_rowgenerator：
+? 在结果集中为一定数目的行生成测试数据。
+? 生成一个结果集，其中包含为每个范围中的值生成的行。例如，可以为一个月的
+每一天生成一行，也可以生成邮政编码范围。
+? 生成一个查询，其结果集具有指定数目的行。这对于测试查询性能可能有用。
+*/
+
+SELECT DATEFORMAT(NOW(),'YYMMDDHHMM');
+SELECT DATEPART(MICROSECOND,NOW());
+SELECT DATEPART(MCS,NOW());
+
+SELECT DATE( '1998-09-09 12:12:12');
+SELECT DATETIME( '1998-09-09 12:12:12');
+
+SELECT 
+   G.PRO_ORG_NO||DATEFORMAT(NOW(),'YYMMDDHHMM')||REPEAT('0',9 - LENGTH(CAST(G.ROW_CNT AS VARCHAR(8))))||G.ROW_CNT,
+   G.PRO_ORG_NO,
+   G.ORG_NO,
+   '02', --统计周期01：日02：月
+   IN_YM,
+   '09',
+   G.CODE_TYPE,
+   G.INTERVAL_NUM,
+   V_TIME_STAMP
+FROM (
+  SELECT 
+   ROW_NUMBER() OVER(ORDER BY E.PRO_ORG_NO) ROW_CNT,
+   E.PRO_ORG_NO,
+   E.ORG_NO,  
+   E.CODE_TYPE,
+   convert(NUMERIC,isnull(F.INTERVAL_NUM, 0))  INTERVAL_NUM
+    FROM #TEMP_ORG_LIST F, #INTERVAL_CODE E
+   WHERE E.CODE_TYPE =* F.CODE_TYPE
+     AND E.ORG_NO =* F.ORG_NO
+     AND E.PRO_ORG_NO =* F.PRO_ORG_NO)
